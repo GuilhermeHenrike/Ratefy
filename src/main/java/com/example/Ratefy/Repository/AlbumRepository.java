@@ -3,10 +3,11 @@ package com.example.Ratefy.Repository;
 import com.example.Ratefy.Entity.Album;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface AlbumRepository extends JpaRepository<Album, Long> {
 
-    boolean existsByTitle(String title);
-    Album findByTitle(String title);
-    boolean existsByIdAndUserId(long id, long userId);
+    List<Album> findAllByUserId(Long userId);
+    Album findByIdAndUserId(long id, long userId);
 
 }
