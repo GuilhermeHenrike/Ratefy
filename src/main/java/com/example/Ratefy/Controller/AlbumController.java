@@ -1,5 +1,6 @@
 package com.example.Ratefy.Controller;
 
+import com.example.Ratefy.DTO.AlbumRequestDTO;
 import com.example.Ratefy.Entity.Album;
 import com.example.Ratefy.Entity.Users;
 import com.example.Ratefy.Services.AlbumService;
@@ -37,7 +38,7 @@ public class AlbumController {
     }
 
     @PostMapping("/album")
-    public ResponseEntity<?> createAlbum(@Valid @RequestBody Album album, BindingResult result,
+    public ResponseEntity<?> createAlbum(@Valid @RequestBody AlbumRequestDTO albumDto, BindingResult result,
                                          HttpSession session) {
 
         if  (result.hasErrors()) {
@@ -52,8 +53,9 @@ public class AlbumController {
         }
 
         try {
+            Album album = albumDto.toEntity();
             albumService.createAlbum(album, user);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Sucess: Album created");
+            return ResponseEntity.status(HttpStatus.CREATED).body("Success: Album created");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -76,7 +78,7 @@ public class AlbumController {
 
         try {
             albumService.updateAlbum(album, user);
-            return ResponseEntity.status(HttpStatus.OK).body("Sucess: Album updated");
+            return ResponseEntity.status(HttpStatus.OK).body("Success: Album updated");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -93,7 +95,7 @@ public class AlbumController {
 
         try {
             albumService.deleteAlbum(album, user);
-            return ResponseEntity.status(HttpStatus.OK).body("Sucess: Album deleted");
+            return ResponseEntity.status(HttpStatus.OK).body("Success: Album deleted");
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
