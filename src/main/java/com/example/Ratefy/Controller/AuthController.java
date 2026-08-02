@@ -1,5 +1,6 @@
 package com.example.Ratefy.Controller;
 
+import com.example.Ratefy.DTO.UsersRequestDTO;
 import com.example.Ratefy.Entity.Users;
 import com.example.Ratefy.Services.AuthService;
 import jakarta.servlet.http.HttpSession;
@@ -21,7 +22,7 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("signUp")
-    public ResponseEntity<?> signUp(@Valid @RequestBody Users users, BindingResult result) {
+    public ResponseEntity<?> signUp(@Valid @RequestBody UsersRequestDTO usersDto, BindingResult result) {
 
         if (result.hasErrors()) {
             String mensagemErro = result.getFieldError().getDefaultMessage();
@@ -29,15 +30,16 @@ public class AuthController {
         }
 
         try {
+            Users users = usersDto.toEntity();
             authService.signUp(users);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Sucess: User created");
+            return ResponseEntity.status(HttpStatus.CREATED).body("Success: User created");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
     @PostMapping("signIn")
-    public ResponseEntity<?> signIn(@Valid @RequestBody Users users,
+    public ResponseEntity<?> signIn(@Valid @RequestBody UsersRequestDTO usersDto,
                                     BindingResult result, HttpSession session) {
 
         if (result.hasErrors()) {
@@ -46,9 +48,10 @@ public class AuthController {
         }
 
         try {
+            Users users = usersDto.toEntity();
             Users user = authService.signIn(users);
             session.setAttribute("user", user);
-            return ResponseEntity.ok().body("Sucess: Logging");
+            return ResponseEntity.ok().body("Success: Login successful");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
