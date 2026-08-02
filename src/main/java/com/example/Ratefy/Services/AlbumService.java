@@ -23,7 +23,7 @@ public class AlbumService {
         return albumRepository.findAllByUserId(user.getId());
     }
 
-    public Album createAlbum(Album album, Users user) {
+    public void createAlbum(Album album, Users user) {
 
         if (user == null) {
             throw new RuntimeException("You need to login first");
@@ -34,22 +34,17 @@ public class AlbumService {
         }
 
         album.setUser(user);
-        return albumRepository.save(album);
+        albumRepository.save(album);
     }
 
-    public Album updateAlbum(Album album, Users user) {
+    public void updateAlbum(Long id, Album album, Users user) {
 
         // session
         if (user == null) {
             throw new RuntimeException("You need to login first");
         }
 
-        // valid album
-        if (album == null || album.getId() == null) {
-            throw new RuntimeException("You must send a valid Album to update");
-        }
-
-        Album albumFounded = albumRepository.findById(album.getId()).
+        Album albumFounded = albumRepository.findById(id).
                 orElseThrow(() -> new RuntimeException("Album not found"));
 
         if (!albumFounded.getUser().getId().equals(user.getId())) {
@@ -72,16 +67,16 @@ public class AlbumService {
             albumFounded.setCoverUrl(album.getCoverUrl());
         }
 
-        return albumRepository.save(albumFounded);
+        albumRepository.save(albumFounded);
     }
 
-    public void deleteAlbum(Album album, Users user) {
+    public void deleteAlbum(Long id, Users user) {
 
         if (user == null) {
             throw new RuntimeException("You need to login first");
         }
 
-        Album albumFounded = albumRepository.findByIdAndUserId(album.getId(), user.getId());
+        Album albumFounded = albumRepository.findByIdAndUserId(id, user.getId());
 
         if (albumFounded == null) {
             throw new RuntimeException("Album not found");
