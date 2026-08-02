@@ -61,8 +61,8 @@ public class AlbumController {
         }
     }
 
-    @PutMapping("/album")
-    public ResponseEntity<?> updateAlbum(@Valid @RequestBody Album album, BindingResult result,
+    @PutMapping("/album/{id}")
+    public ResponseEntity<?> updateAlbum(@PathVariable Long id, @Valid @RequestBody AlbumRequestDTO albumDto, BindingResult result,
                                          HttpSession session) {
 
         if (result.hasErrors()) {
@@ -77,15 +77,16 @@ public class AlbumController {
         }
 
         try {
-            albumService.updateAlbum(album, user);
+            Album album = albumDto.toEntity();
+            albumService.updateAlbum(id, album, user);
             return ResponseEntity.status(HttpStatus.OK).body("Success: Album updated");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
-    @DeleteMapping("/album")
-    public ResponseEntity<?> deleteAlbum(@Valid @RequestBody Album album, HttpSession session) {
+    @DeleteMapping("/album/{id}")
+    public ResponseEntity<?> deleteAlbum(@PathVariable Long id, HttpSession session) {
 
         Users user = (Users) session.getAttribute("user");
 
@@ -94,7 +95,7 @@ public class AlbumController {
         }
 
         try {
-            albumService.deleteAlbum(album, user);
+            albumService.deleteAlbum(id, user);
             return ResponseEntity.status(HttpStatus.OK).body("Success: Album deleted");
         }
         catch (Exception e) {
