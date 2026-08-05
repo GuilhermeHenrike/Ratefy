@@ -1,6 +1,5 @@
 package com.example.Ratefy.Controller;
 
-import com.example.Ratefy.DTO.AlbumEditDTO;
 import com.example.Ratefy.DTO.AlbumRequestDTO;
 import com.example.Ratefy.Entity.Album;
 import com.example.Ratefy.Entity.Users;
@@ -63,7 +62,7 @@ public class AlbumController {
     }
 
     @PutMapping("/album/{id}")
-    public ResponseEntity<?> updateAlbum(@PathVariable Long id, @Valid @RequestBody AlbumEditDTO albumDto, BindingResult result,
+    public ResponseEntity<?> updateAlbum(@PathVariable Long id, @Valid @RequestBody AlbumRequestDTO albumDto, BindingResult result,
                                          HttpSession session) {
 
         if (result.hasErrors()) {
