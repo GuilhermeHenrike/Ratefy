@@ -67,6 +67,10 @@ public class AlbumService {
             albumFounded.setCoverUrl(album.getCoverUrl());
         }
 
+        if  (album.getRating() != null) {
+            albumFounded.setRating(album.getRating());
+        }
+
         albumRepository.save(albumFounded);
     }
 

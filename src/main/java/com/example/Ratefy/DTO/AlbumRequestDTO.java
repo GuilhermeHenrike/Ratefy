@@ -18,6 +18,7 @@ public class AlbumRequestDTO {
 
     private String description;
     private String coverUrl;
+    private Integer rating;
 
     public Album toEntity() {
         Album album = new Album();
@@ -25,6 +26,7 @@ public class AlbumRequestDTO {
         album.setArtist(this.artist);
         album.setDescription(this.description);
         album.setCoverUrl(this.coverUrl);
+        album.setRating(this.rating);
         return album;
     }
 
