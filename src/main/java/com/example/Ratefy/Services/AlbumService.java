@@ -39,7 +39,6 @@ public class AlbumService {
 
     public void updateAlbum(Long id, Album album, Users user) {
 
-        // session
         if (user == null) {
             throw new RuntimeException("You need to login first");
         }

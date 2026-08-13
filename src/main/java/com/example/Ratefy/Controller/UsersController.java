@@ -1,5 +1,7 @@
 package com.example.Ratefy.Controller;
 
+import com.example.Ratefy.DTO.AlbumResponseDTO;
+import com.example.Ratefy.DTO.UsersResponseDTO;
 import com.example.Ratefy.Entity.Users;
 import com.example.Ratefy.Services.UsersService;
 import jakarta.servlet.http.HttpSession;
@@ -28,9 +30,26 @@ public class UsersController {
         }
 
         try {
-            List<Users> searched = usersService.searchUsers(userUsername, user);
+            List<UsersResponseDTO> searched = usersService.searchUsers(userUsername, user);
             return ResponseEntity.ok(searched);
         } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("profile/{id}")
+    public ResponseEntity<?> getProfile(@PathVariable Long id, HttpSession session) {
+
+        Users user = (Users) session.getAttribute("user");
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You must be logged in");
+        }
+
+        try {
+            List<AlbumResponseDTO> albums = usersService.profile(id, user);
+            return ResponseEntity.ok(albums);
+        }  catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
