@@ -37,7 +37,7 @@ public class Config {
         CorsConfiguration configuration = new CorsConfiguration();
         // Libera o frontend da Vercel e do localhost
         configuration.setAllowedOrigins(List.of(
-                "ratefy-react.vercel.app"
+                "https://ratefy-react.vercel.app"
 
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
