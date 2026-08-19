@@ -1,4 +1,4 @@
-# EuPassei
+# Ratefy
 
 ## Sobre o Projeto
 O Ratefy é uma aplicação web desenvolvida para permitir que usuários descubram, organizem e avaliem álbuns musicais de forma simples e personalizada.
